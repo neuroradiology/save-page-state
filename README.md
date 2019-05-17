@@ -29,18 +29,18 @@ Or create a custom chrome extension with this repo with limited access permissio
 
 ### Restrict Access Permission
 
-In manifest.json (`/src/manifest.json`), replace the `*://*/*` URL pattern with your own project URL you wish to save the page states from.
+In manifest.json (`/src/manifest.json`), replace `<all_urls>` with your own project URL pattern you wish to save the page states from.
 
 ```javascript
 {
 	...
 	"content_scripts": [
 		{
-			"matches": ["*://*/*"], // <- change this url pattern
+			"matches": ["<all_urls>"], // <- change this to your url pattern
 			"js": ["js/content.js"]
 		}
 	],
-	"permissions": ["activeTab", "pageCapture", "*://*/*"]  // <- change this url pattern
+	"permissions": ["activeTab", "pageCapture", "<all_urls>"]  // <- change this to your url pattern
 	...
 }
 ```
@@ -61,7 +61,20 @@ Builds to `/build/prod`
 
 ### Publish
 
-Create a zip file from `/build/prod` and [upload it to the chrome web store](https://developer.chrome.com/webstore/publish#upload-your-app).
+#### Chrome
+Create a zip file from `/build/prod/chrome`
+[upload it to the chrome web store](https://developer.chrome.com/webstore/publish#upload-your-app).
+
+#### Firefox
+Create a zip file from `/build/prod/firefox`
+[upload it to the firefox developer hub](https://addons.mozilla.org/nl/developers/).
+
+### Development
+
+```
+npm run dev:chrome // builds to /build/dev/chrome
+npm run dev:firefox // builds to /build/dev/firefox
+```
 
 ## Features
 
@@ -69,7 +82,7 @@ Create a zip file from `/build/prod` and [upload it to the chrome web store](htt
 
 An HTML file containing the state of the DOM.
 
-### MHTML file
+### MHTML file (chrome only for now)
 
 An MHTML page with encapsulated resources, so you could immediately check the layout by opening the MHTML file in Chrome.
 
@@ -87,7 +100,9 @@ Text file with extra metadata useful for debugging with the exact same state.
 - **status**: page loading status
 - **title**: page title
 - **url**: page URL
-- **chromeVersion**: chrome version
+- **browser**: browser
+- **browserVersion**: browser version
+- **os**: operating system
 
 ## Maintainer
 
